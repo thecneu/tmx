@@ -6,6 +6,7 @@ const ObjectId = require('mongodb').ObjectId
 const data = json.filter(trailer => trailer.Type)
 const music = []
 const trailers = []
+const movies = []
 
 data.forEach(trailer => {
   const id = trailer.Link.match(/^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/)
@@ -31,6 +32,7 @@ data.forEach(trailer => {
 
   trailers.push({ ...obj, cues })
   music.push(...cues.map(cue => ({ _id: cue.song, artist: cue.artist, title: cue.title })))
+  movies.push({ _id: new ObjectId, title: obj.title, year: obj.year })
 })
 
 // console.log(music)
