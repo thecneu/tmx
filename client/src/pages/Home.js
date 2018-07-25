@@ -26,8 +26,6 @@ class Home extends Component {
   }
 
   checkMatch(cue) {
-
-
     if (this.state.search) {
       const search = { title: this.state.search, artist: this.state.search };
       const keys = Object.keys(search);
@@ -53,7 +51,7 @@ class Home extends Component {
   }
 
   render() {
-    const { trailers, movies } = this.state;
+    const { trailers, movies, search } = this.state;
 
     return (
       <main>
@@ -109,8 +107,8 @@ class Home extends Component {
                   {trailer.cues.length > 0 &&
                     <ul>
                       {trailer.cues.map(cue =>
-                        <li key={cue.time} className={this.checkMatch(cue)}>
-                          {cue.artist} - {cue.title} <a href={`${trailer.videoUrl}&t=${this.calculateTime(cue.time)}s`} target="_blank">View Trailer</a>
+                        <li key={cue.time}>
+                          <span dangerouslySetInnerHTML={{ __html: cue.artist.replace(new RegExp(search, 'i'), '<b>$&</b>') }}></span> - <span dangerouslySetInnerHTML={{ __html: cue.title.replace(new RegExp(search, 'i'), '<b>$&</b>') }}></span> <a href={`${trailer.videoUrl}&t=${this.calculateTime(cue.time)}s`} target="_blank">View Trailer</a>
                         </li>
                       )}
                     </ul>
