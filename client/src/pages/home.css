@@ -1,0 +1,40 @@
+section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    position: relative;
+    flex-basis: 33%;
+    overflow: hidden;
+}
+
+.tile-image {
+    display: block;
+    width: 100%;
+    margin: -10% 0;
+}
+
+.tile-content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    transition: 420ms ease-in;
+    opacity: 0;
+    flex-direction: column;
+}
+
+.tile-content:hover {
+    background: rgba(0, 0, 0, .84);
+    opacity: 1;
+}
+
+.title {
+    color: red;
+}
