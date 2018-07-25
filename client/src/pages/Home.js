@@ -21,8 +21,26 @@ class Home extends Component {
     e.preventDefault();
     const q = e.currentTarget.q.value;
 
-    const results = await find({ title: q });
+    const results = await find({ title: q, artist: q });
     this.setState({ search: q, trailers: results, movies: sort(results) })
+  }
+
+  checkMatch(cue) {
+
+
+    if (this.state.search) {
+      const search = { title: this.state.search, artist: this.state.search };
+      const keys = Object.keys(search);
+      const bold = keys.some(key => {
+        var regex = new RegExp(search[key], 'ig');
+        console.log(key, search[key], regex, cue[key]);
+        return regex.test(cue[key])
+      });
+
+      return bold ? 'bold' : '';
+    }
+
+    return '';
   }
 
   calculateTime(time) {
@@ -41,13 +59,14 @@ class Home extends Component {
       <main>
         <header>
           <h1>Trailer Music</h1>
-          <div>
-            <form onSubmit={this.onSubmit}>
-              <input name="q" type="text" />
-              <button type="submit">Go</button>
-            </form>
-          </div>
         </header>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <form onSubmit={this.onSubmit}>
+            <input name="q" type="text" autoComplete="off" />
+            <button type="submit">Go</button>
+          </form>
+        </div>
 
         <hr />
 
@@ -63,7 +82,7 @@ class Home extends Component {
               {trailer.cues.length > 0 &&
                 <ul>
                   {trailer.cues.map(cue =>
-                    <li>
+                    <li key={cue.time}>
                       {cue.artist} - {cue.title} <a href={`${trailer.videoUrl}&t=${this.calculateTime(cue.time)}s`} target="_blank">View Trailer</a>
                     </li>
                   )}
@@ -90,7 +109,7 @@ class Home extends Component {
                   {trailer.cues.length > 0 &&
                     <ul>
                       {trailer.cues.map(cue =>
-                        <li>
+                        <li key={cue.time} className={this.checkMatch(cue)}>
                           {cue.artist} - {cue.title} <a href={`${trailer.videoUrl}&t=${this.calculateTime(cue.time)}s`} target="_blank">View Trailer</a>
                         </li>
                       )}

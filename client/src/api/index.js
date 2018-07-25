@@ -18,7 +18,7 @@ export const find = async (query) => {
   return trailers.filter(trailer => {
     const keys = Object.keys(query);
     return keys.some(key => {
-      var regex = new RegExp(query[key], 'i');
+      var regex = new RegExp(query[key], 'ig');
       const cues = trailer.cues.some(cue => regex.test(cue[key]));
       return cues || regex.test(trailer[key])
     });
